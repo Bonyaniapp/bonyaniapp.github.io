@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>افتح في بنياني · Open in Bonyani · Bonyani بنياني</title>
+<meta name="description" content="بنياني: إدارة بناء بيتك في الكويت · Bonyani: build your home in Kuwait">
+<style>
+:root { --navy:#0f2652; --blue:#1f59b8; --gold:#d9a340; --bg:#f4f6fb; --card:#fff; --text:#1d2738; --muted:#5d6b80; --border:#dde4ef; }
+@media (prefers-color-scheme: dark) { :root { --bg:#0b1220; --card:#141d2e; --text:#e8edf6; --muted:#9aa8bd; --border:#25314a; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--text); font-family:-apple-system,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif; line-height:1.8; }
+header { background:linear-gradient(135deg,var(--navy),var(--blue)); color:#fff; text-align:center; padding:40px 16px 34px; }
+.word-ar { font-size:44px; font-weight:900; line-height:1.2; }
+.word-en { color:var(--gold); font-weight:700; letter-spacing:.5em; font-size:13px; margin-inline-start:.5em; }
+header p { margin:10px 0 0; opacity:.8; font-size:14px; }
+nav { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; padding:14px 16px 0; }
+nav a { color:var(--blue); text-decoration:none; font-weight:700; font-size:14px; padding:6px 14px; border-radius:999px; background:var(--card); border:1px solid var(--border); }
+@media (prefers-color-scheme: dark) { nav a { color:#8db4ff; } }
+main { max-width:760px; margin:0 auto; padding:20px 16px 48px; }
+.lang { display:flex; justify-content:flex-end; margin-bottom:8px; }
+.lang a { color:var(--muted); font-size:13px; }
+h1 { font-size:26px; margin:8px 0 2px; }
+.updated { color:var(--muted); font-size:13px; margin:0 0 18px; }
+section { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:18px 20px; margin:12px 0; }
+section h2 { font-size:17px; margin:0 0 6px; }
+section p { margin:0; color:var(--muted); white-space:pre-line; font-size:15px; }
+.en { direction:ltr; text-align:left; }
+.contact a { display:inline-block; margin:6px 0; color:#fff; background:linear-gradient(135deg,var(--navy),var(--blue)); padding:12px 22px; border-radius:12px; text-decoration:none; font-weight:700; }
+footer { text-align:center; color:var(--muted); font-size:12px; padding:0 16px 32px; }
+</style>
+<meta name="robots" content="noindex">
+<style>
+.open { text-align:center; }
+.open h1 { font-size:22px; }
+.open .kind { color:var(--muted); font-size:14px; margin:0 0 6px; }
+.open .en { color:var(--muted); font-size:14px; margin:4px 0 0; direction:ltr; }
+.buttons { display:flex; flex-direction:column; gap:10px; margin:18px auto 4px; max-width:340px; }
+.buttons a { display:block; padding:14px 18px; border-radius:14px; font-weight:700; text-decoration:none; text-align:center; }
+.buttons a.primary { color:#fff; background:linear-gradient(135deg,var(--navy),var(--blue)); }
+.buttons a.secondary { color:var(--blue); background:rgba(31,89,184,.1); }
+@media (prefers-color-scheme: dark) { .buttons a.secondary { color:#8db4ff; background:rgba(141,180,255,.12); } }
+[hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<header>
+  <div class="word-ar">بنياني</div>
+  <div class="word-en">BONYANI</div>
+  <p>من أرضك إلى مفتاحك</p>
+</header>
+<nav>
+  <a href="privacy.html">سياسة الخصوصية</a><a href="terms.html">شروط الاستخدام</a><a href="support.html">الدعم</a>
+  <a href="privacy-en.html">Privacy</a><a href="terms-en.html">Terms</a>
+</nav>
+<main class="">
+
+<section class="open">
+  <p class="kind" id="kind"></p>
+  <h1 id="title">جارٍ الفتح في تطبيق بنياني…</h1>
+  <p class="en" id="title-en">Opening in the Bonyani app…</p>
+  <div class="buttons">
+    <a class="primary" id="open" href="#" hidden>افتح في التطبيق · Open in the app</a>
+    <a class="secondary" id="get" href="#" hidden>حمّل بنياني من App Store · Get Bonyani</a>
+  </div>
+  <p class="en" id="note" hidden></p>
+</section>
+<script>
+(function () {
+  var STORE = null;
+  var SUPABASE = "https://gxffzkusocmwfcaqgmph.supabase.co", KEY = "sb_publishable_DQlBHwqKO8b9E89Uw4p0Pw_N3Ojc29-";
+  var kinds = {
+    c: ["vendor", "صفحة شركة على بنياني", "A company on Bonyani"],
+    m: ["market", "إعلان في سوق بنياني", "A listing on the Bonyani market"],
+    d: ["deal", "عرض وتخفيض على بنياني", "A deal on Bonyani"]
+  };
+  var uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  var params = new URLSearchParams(location.search);
+  var target = null, label = null;
+  ["c", "m", "d"].forEach(function (key) {
+    var value = params.get(key);
+    if (!target && value && uuid.test(value)) {
+      target = "bonyani://" + kinds[key][0] + "/" + value.toLowerCase();
+      label = kinds[key];
+    }
+  });
+  var openLink = document.getElementById("open"), getLink = document.getElementById("get");
+  var note = document.getElementById("note");
+  var storeURL = null;
+  function setStore(url) {
+    if (typeof url === "string" && /^https:\/\/(apps|itunes)\.apple\.com\//.test(url)) {
+      storeURL = url;
+      getLink.href = url;
+      getLink.hidden = false;
+    }
+  }
+  if (STORE) {
+    setStore(STORE);
+  } else {
+    fetch(SUPABASE + "/rest/v1/app_settings?key=eq.app_store_url&select=value", { headers: { apikey: KEY } })
+      .then(function (r) { return r.json(); })
+      .then(function (rows) { setStore(rows && rows[0] && rows[0].value); })
+      .catch(function () {});
+  }
+  if (!target) {
+    document.getElementById("title").textContent = "الرابط غير مكتمل";
+    document.getElementById("title-en").textContent = "This link isn't complete.";
+    return;
+  }
+  document.getElementById("kind").textContent = label[1] + " · " + label[2];
+  openLink.href = target;
+  openLink.hidden = false;
+  var apple = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if (!apple) {
+    document.getElementById("title").textContent = "افتح هذا الرابط من iPhone";
+    document.getElementById("title-en").textContent = "Open this link on an iPhone with Bonyani installed.";
+    return;
+  }
+  // The app opens and this page goes to the background; if it's still showing, the app isn't installed.
+  var timer = setTimeout(function () {
+    if (document.hidden) return;
+    if (storeURL) {
+      location.href = storeURL;
+    } else {
+      note.textContent = "بنياني قريبًا على App Store · Bonyani is coming to the App Store";
+      note.hidden = false;
+    }
+  }, 1800);
+  document.addEventListener("visibilitychange", function () { if (document.hidden) clearTimeout(timer); });
+  location.href = target;
+})();
+</script>
+
+</main>
+<footer>© 2026 Bonyani · بنياني — Kuwait</footer>
+</body>
+</html>
