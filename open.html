@@ -72,12 +72,13 @@ footer { text-align:center; color:var(--muted); font-size:12px; padding:0 16px 3
   var kinds = {
     c: ["vendor", "صفحة شركة على بنياني", "A company on Bonyani"],
     m: ["market", "إعلان في سوق بنياني", "A listing on the Bonyani market"],
-    d: ["deal", "عرض وتخفيض على بنياني", "A deal on Bonyani"]
+    d: ["deal", "عرض وتخفيض على بنياني", "A deal on Bonyani"],
+    p: ["project", "مشروع من أعمال شركة على بنياني", "A company's project on Bonyani"]
   };
   var uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   var params = new URLSearchParams(location.search);
   var target = null, label = null;
-  ["c", "m", "d"].forEach(function (key) {
+  ["c", "m", "d", "p"].forEach(function (key) {
     var value = params.get(key);
     if (!target && value && uuid.test(value)) {
       target = "bonyani://" + kinds[key][0] + "/" + value.toLowerCase();
