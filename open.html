@@ -40,6 +40,13 @@ footer { text-align:center; color:var(--muted); font-size:12px; padding:0 16px 3
 .buttons a.primary { color:#fff; background:linear-gradient(135deg,var(--navy),var(--blue)); }
 .buttons a.secondary { color:var(--blue); background:rgba(31,89,184,.1); }
 @media (prefers-color-scheme: dark) { .buttons a.secondary { color:#8db4ff; background:rgba(141,180,255,.12); } }
+.company { display:flex; flex-direction:column; align-items:center; gap:6px; margin:6px 0 4px; }
+.company img { width:84px; height:84px; object-fit:contain; background:#fff; border:1px solid var(--border); border-radius:22px; padding:6px; }
+.company .trades { color:var(--muted); font-size:14px; margin:0; }
+.pills { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:4px; }
+.pill { font-size:13px; font-weight:700; padding:4px 12px; border-radius:999px; }
+.pill.rating { color:#9a6a12; background:rgba(217,163,64,.16); }
+.pill.verified { color:#1d7a45; background:rgba(29,122,69,.12); }
 [hidden] { display:none !important; }
 </style>
 </head>
@@ -57,11 +64,17 @@ footer { text-align:center; color:var(--muted); font-size:12px; padding:0 16px 3
 
 <section class="open">
   <p class="kind" id="kind"></p>
+  <div class="company" id="company" hidden>
+    <img id="logo" alt="" hidden>
+    <p class="trades" id="trades"></p>
+    <div class="pills"><span class="pill rating" id="rating" hidden></span><span class="pill verified" id="verified" hidden>رخصتها مؤكدة · Licence checked</span></div>
+  </div>
   <h1 id="title">جارٍ الفتح في تطبيق بنياني…</h1>
   <p class="en" id="title-en">Opening in the Bonyani app…</p>
   <div class="buttons">
     <a class="primary" id="open" href="#" hidden>افتح في التطبيق · Open in the app</a>
     <a class="secondary" id="get" href="#" hidden>حمّل بنياني من App Store · Get Bonyani</a>
+    <a class="secondary" id="play" href="#" hidden>حمّل بنياني من Google Play · Get it on Google Play</a>
   </div>
   <p class="en" id="note" hidden></p>
 </section>
@@ -69,6 +82,7 @@ footer { text-align:center; color:var(--muted); font-size:12px; padding:0 16px 3
 (function () {
   var STORE = null;
   var SUPABASE = "https://gxffzkusocmwfcaqgmph.supabase.co", KEY = "sb_publishable_DQlBHwqKO8b9E89Uw4p0Pw_N3Ojc29-";
+  var TRADES = {"shellConstruction":["بناء عظم","Shell construction"],"turnkey":["تسليم مفتاح","Turnkey"],"finishing":["تشطيبات","Finishing"],"electrical":["كهرباء","Electrical"],"plumbing":["صحي","Plumbing"],"airConditioning":["تكييف","Air conditioning"],"aluminum":["ألمنيوم وزجاج","Aluminum & glass"],"insulation":["عوازل","Insulation"],"gypsum":["جبس وديكور","Gypsum & decor"],"painting":["أصباغ","Painting"],"stoneFacades":["حجر وواجهات","Stone & facades"],"metalwork":["حدادة وبوابات","Metalwork & gates"],"shadesFences":["مظلات وسواتر","Shades & fences"],"demolition":["هدم وإزالة","Demolition & removal"],"poolsAndGardens":["مسابح","Swimming pools"],"landscaping":["حدائق وتنسيق مواقع","Gardens & landscaping"],"steel":["حديد","Steel"],"readyMix":["خرسانة جاهزة","Ready-mix concrete"],"blocks":["طابوق","Blocks"],"sandAggregate":["رمل وصلبوخ","Sand & aggregate"],"tiles":["سيراميك ورخام","Tiles & marble"],"sanitaryWare":["أدوات صحية","Sanitary ware"],"electricalSupplies":["مواد كهربائية","Electrical supplies"],"doors":["أبواب","Doors"],"elevators":["مصاعد","Elevators"],"equipmentRental":["تأجير معدات","Equipment rental"],"furniture":["أثاث ومفروشات","Furniture & furnishings"],"customFurniture":["أثاث تفصيل","Custom furniture"],"kitchens":["مطابخ","Kitchens"],"curtains":["ستائر وتنجيد","Curtains & upholstery"],"architecturalDesign":["تصميم ومخططات","Design & plans"],"supervision":["إشراف هندسي","Site supervision"],"soilTest":["فحص تربة","Soil testing"],"acMaintenance":["صيانة تكييف","AC maintenance"],"generalRepairs":["صيانة عامة","General repairs"],"plumbingRepair":["صحي وتسليك","Plumbing repair"],"electricalRepair":["صيانة كهرباء","Electrical repair"],"elevatorMaintenance":["صيانة مصاعد","Elevator maintenance"],"roofWaterproofing":["عزل أسطح","Roof waterproofing"],"tankCleaning":["تنظيف خزانات","Tank cleaning"],"pestControl":["مكافحة حشرات","Pest control"],"carpentry":["نجارة","Carpentry"],"furnitureMoving":["نقل عفش","Furniture moving"],"cctvSmartHome":["كاميرات وأنظمة ذكية","CCTV & smart home"],"solarEnergy":["طاقة شمسية","Solar energy"],"cleaning":["تنظيف بعد البناء","Post-build cleaning"],"contractReview":["مراجعة العقود","Contract review"],"contractDrafting":["كتابة العقود","Contract drafting"],"legalConsultation":["استشارات قانونية","Legal advice"]};
   var kinds = {
     c: ["vendor", "صفحة شركة على بنياني", "A company on Bonyani"],
     m: ["market", "إعلان في سوق بنياني", "A listing on the Bonyani market"],
@@ -77,31 +91,58 @@ footer { text-align:center; color:var(--muted); font-size:12px; padding:0 16px 3
   };
   var uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   var params = new URLSearchParams(location.search);
-  var target = null, label = null;
+  var target = null, label = null, path = null, companyID = null;
   ["c", "m", "d", "p"].forEach(function (key) {
     var value = params.get(key);
     if (!target && value && uuid.test(value)) {
-      target = "bonyani://" + kinds[key][0] + "/" + value.toLowerCase();
+      path = kinds[key][0] + "/" + value.toLowerCase();
       label = kinds[key];
+      if (key === "c") companyID = value.toLowerCase();
     }
   });
-  var openLink = document.getElementById("open"), getLink = document.getElementById("get");
+  // A company's «اطلب عرض سعر» link (q=1) opens its own quote form in the app.
+  var asksQuote = companyID && params.get("q") === "1";
+  if (path) {
+    if (asksQuote) {
+      path += "?q=1";
+      label = ["vendor", "اطلب عرض سعر من شركة على بنياني", "Request a quote from a company on Bonyani"];
+    }
+    target = "bonyani://" + path;
+  }
+  var openLink = document.getElementById("open"), getLink = document.getElementById("get"), playLink = document.getElementById("play");
   var note = document.getElementById("note");
-  var storeURL = null;
-  function setStore(url) {
-    if (typeof url === "string" && /^https:\/\/(apps|itunes)\.apple\.com\//.test(url)) {
-      storeURL = url;
-      getLink.href = url;
-      getLink.hidden = false;
+  var storeURL = null, playURL = null, storesKnown = false;
+  var apple = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  var android = /Android/i.test(navigator.userAgent);
+  var noApp = params.get("noapp") === "1";
+  function comingSoon() {
+    if (storesKnown && !storeURL && !playURL) {
+      note.textContent = "بنياني قريبًا على المتجر · Bonyani is coming to the stores";
+      note.hidden = false;
     }
   }
+  function setStores(rows) {
+    (rows || []).forEach(function (row) {
+      if (row.key === "app_store_url" && typeof row.value === "string" && /^https:\/\/(apps|itunes)\.apple\.com\//.test(row.value)) {
+        storeURL = row.value;
+      }
+      if (row.key === "play_store_url" && typeof row.value === "string" && /^https:\/\/play\.google\.com\//.test(row.value)) {
+        playURL = row.value;
+      }
+    });
+    storesKnown = true;
+    if (storeURL && !android) { getLink.href = storeURL; getLink.hidden = false; }
+    if (playURL && !apple) { playLink.href = playURL; playLink.hidden = false; }
+    if (android && target) openLink.href = intentURL();
+    if (noApp || (!apple && !android)) comingSoon();
+  }
   if (STORE) {
-    setStore(STORE);
+    setStores([{ key: "app_store_url", value: STORE }]);
   } else {
-    fetch(SUPABASE + "/rest/v1/app_settings?key=eq.app_store_url&select=value", { headers: { apikey: KEY } })
+    fetch(SUPABASE + "/rest/v1/app_settings?key=in.(app_store_url,play_store_url)&select=key,value", { headers: { apikey: KEY } })
       .then(function (r) { return r.json(); })
-      .then(function (rows) { setStore(rows && rows[0] && rows[0].value); })
-      .catch(function () {});
+      .then(setStores)
+      .catch(function () { storesKnown = true; });
   }
   if (!target) {
     document.getElementById("title").textContent = "الرابط غير مكتمل";
@@ -109,12 +150,56 @@ footer { text-align:center; color:var(--muted); font-size:12px; padding:0 16px 3
     return;
   }
   document.getElementById("kind").textContent = label[1] + " · " + label[2];
+  // A shared company: its public card (approved companies only), so the page says who it is.
+  if (companyID) {
+    fetch(SUPABASE + "/rest/v1/vendors?id=eq." + companyID + "&status=eq.approved&select=name_ar,name_en,logo_url,categories,rating,reviews_count,is_verified",
+          { headers: { apikey: KEY } })
+      .then(function (r) { return r.json(); })
+      .then(function (rows) {
+        var v = rows && rows[0];
+        if (!v || !v.name_ar) return;
+        document.getElementById("company").hidden = false;
+        document.getElementById("title").textContent = v.name_ar;
+        document.getElementById("title-en").textContent = v.name_en || "";
+        var logo = document.getElementById("logo");
+        if (typeof v.logo_url === "string" && v.logo_url.indexOf(SUPABASE + "/storage/v1/object/public/vendor-media/") === 0) {
+          logo.src = v.logo_url;
+          logo.hidden = false;
+        }
+        var trades = (v.categories || []).map(function (t) { return TRADES[t]; }).filter(Boolean).slice(0, 3);
+        document.getElementById("trades").textContent =
+          trades.map(function (t) { return t[0]; }).join("، ") + (trades.length ? " · " : "") + trades.map(function (t) { return t[1]; }).join(", ");
+        if (v.reviews_count > 0 && v.rating > 0) {
+          var rating = document.getElementById("rating");
+          rating.textContent = Number(v.rating).toFixed(1) + " ★ · " + v.reviews_count;
+          rating.hidden = false;
+        }
+        if (v.is_verified) document.getElementById("verified").hidden = false;
+        if (asksQuote) openLink.textContent = "اطلب عرض سعر في التطبيق · Request a quote in the app";
+      })
+      .catch(function () {});
+  }
+  if (asksQuote) openLink.textContent = "اطلب عرض سعر في التطبيق · Request a quote in the app";
   openLink.href = target;
   openLink.hidden = false;
-  var apple = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  // Android: an intent link opens the app, or Google Play (else this page, saying the app is coming) when it isn't there.
+  function intentURL() {
+    var back = playURL || (location.href + (location.search ? "&" : "?") + "noapp=1");
+    return "intent://" + path + "#Intent;scheme=bonyani;package=com.bonyani.app;S.browser_fallback_url=" + encodeURIComponent(back) + ";end";
+  }
+  if (android) {
+    openLink.href = intentURL();
+    if (noApp) {
+      note.textContent = "التطبيق غير مثبّت على هذا الجوال · The app isn't installed on this phone";
+      note.hidden = false;
+      return;
+    }
+    location.href = intentURL();
+    return;
+  }
   if (!apple) {
-    document.getElementById("title").textContent = "افتح هذا الرابط من iPhone";
-    document.getElementById("title-en").textContent = "Open this link on an iPhone with Bonyani installed.";
+    note.textContent = "افتح هذا الرابط من جوالك وفيه تطبيق بنياني · Open this link on your phone with Bonyani installed";
+    note.hidden = false;
     return;
   }
   // The app opens and this page goes to the background; if it's still showing, the app isn't installed.
