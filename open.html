@@ -100,13 +100,10 @@ footer { text-align:center; color:var(--muted); font-size:12px; padding:0 16px 3
       if (key === "c") companyID = value.toLowerCase();
     }
   });
-  // A company's «اطلب عرض سعر» link (q=1) opens its own quote form in the app.
+  // A company's «اطلب عرض سعر» link (q=1) opens its own quote form in the app (a law office's: its consultation form).
   var asksQuote = companyID && params.get("q") === "1";
   if (path) {
-    if (asksQuote) {
-      path += "?q=1";
-      label = ["vendor", "اطلب عرض سعر من شركة على بنياني", "Request a quote from a company on Bonyani"];
-    }
+    if (asksQuote) path += "?q=1";
     target = "bonyani://" + path;
   }
   var openLink = document.getElementById("open"), getLink = document.getElementById("get"), playLink = document.getElementById("play");
@@ -149,14 +146,31 @@ footer { text-align:center; color:var(--muted); font-size:12px; padding:0 16px 3
     document.getElementById("title-en").textContent = "This link isn't complete.";
     return;
   }
-  document.getElementById("kind").textContent = label[1] + " · " + label[2];
+  var kindLine = document.getElementById("kind");
+  // A company's words wait for its card: a law office is asked for a consultation, not a quote.
+  var companyWordsSet = false;
+  function companyWords(lawOffice) {
+    companyWordsSet = true;
+    var words = asksQuote
+      ? (lawOffice ? ["اطلب استشارة من مكتب على بنياني", "Request a consultation from a law office on Bonyani"]
+                   : ["اطلب عرض سعر من شركة على بنياني", "Request a quote from a company on Bonyani"])
+      : (lawOffice ? ["صفحة مكتب محاماة على بنياني", "A law office on Bonyani"] : [label[1], label[2]]);
+    kindLine.textContent = words[0] + " · " + words[1];
+    if (asksQuote) {
+      openLink.textContent = lawOffice ? "اطلب استشارة في التطبيق · Request a consultation in the app"
+                                       : "اطلب عرض سعر في التطبيق · Request a quote in the app";
+    }
+  }
+  if (!companyID) kindLine.textContent = label[1] + " · " + label[2];
   // A shared company: its public card (approved companies only), so the page says who it is.
   if (companyID) {
-    fetch(SUPABASE + "/rest/v1/vendors?id=eq." + companyID + "&status=eq.approved&select=name_ar,name_en,logo_url,categories,rating,reviews_count,is_verified",
+    setTimeout(function () { if (!companyWordsSet) companyWords(false); }, 1500);
+    fetch(SUPABASE + "/rest/v1/vendors?id=eq." + companyID + "&status=eq.approved&select=name_ar,name_en,logo_url,categories,rating,reviews_count,is_verified,kind",
           { headers: { apikey: KEY } })
       .then(function (r) { return r.json(); })
       .then(function (rows) {
         var v = rows && rows[0];
+        companyWords(!!v && v.kind === "law_office");
         if (!v || !v.name_ar) return;
         document.getElementById("company").hidden = false;
         document.getElementById("title").textContent = v.name_ar;
@@ -175,11 +189,9 @@ footer { text-align:center; color:var(--muted); font-size:12px; padding:0 16px 3
           rating.hidden = false;
         }
         if (v.is_verified) document.getElementById("verified").hidden = false;
-        if (asksQuote) openLink.textContent = "اطلب عرض سعر في التطبيق · Request a quote in the app";
       })
-      .catch(function () {});
+      .catch(function () { if (!companyWordsSet) companyWords(false); });
   }
-  if (asksQuote) openLink.textContent = "اطلب عرض سعر في التطبيق · Request a quote in the app";
   openLink.href = target;
   openLink.hidden = false;
   // Android: an intent link opens the app, or Google Play (else this page, saying the app is coming) when it isn't there.
