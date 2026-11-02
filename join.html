@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سجّل شركتك · Register your company · Bonyani بنياني</title>
+<meta name="description" content="بنياني: إدارة بناء بيتك في الكويت · Bonyani: build your home in Kuwait">
+<style>
+:root { --navy:#0f2652; --blue:#1f59b8; --gold:#d9a340; --bg:#f4f6fb; --card:#fff; --text:#1d2738; --muted:#5d6b80; --border:#dde4ef; }
+@media (prefers-color-scheme: dark) { :root { --bg:#0b1220; --card:#141d2e; --text:#e8edf6; --muted:#9aa8bd; --border:#25314a; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--text); font-family:-apple-system,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif; line-height:1.8; }
+header { background:linear-gradient(135deg,var(--navy),var(--blue)); color:#fff; text-align:center; padding:40px 16px 34px; }
+.word-ar { font-size:44px; font-weight:900; line-height:1.2; }
+.word-en { color:var(--gold); font-weight:700; letter-spacing:.5em; font-size:13px; margin-inline-start:.5em; }
+header p { margin:10px 0 0; opacity:.8; font-size:14px; }
+nav { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; padding:14px 16px 0; }
+nav a { color:var(--blue); text-decoration:none; font-weight:700; font-size:14px; padding:6px 14px; border-radius:999px; background:var(--card); border:1px solid var(--border); }
+@media (prefers-color-scheme: dark) { nav a { color:#8db4ff; } }
+main { max-width:760px; margin:0 auto; padding:20px 16px 48px; }
+.lang { display:flex; justify-content:flex-end; margin-bottom:8px; }
+.lang a { color:var(--muted); font-size:13px; }
+h1 { font-size:26px; margin:8px 0 2px; }
+.updated { color:var(--muted); font-size:13px; margin:0 0 18px; }
+section { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:18px 20px; margin:12px 0; }
+section h2 { font-size:17px; margin:0 0 6px; }
+section p { margin:0; color:var(--muted); white-space:pre-line; font-size:15px; }
+.en { direction:ltr; text-align:left; }
+.contact a { display:inline-block; margin:6px 0; color:#fff; background:linear-gradient(135deg,var(--navy),var(--blue)); padding:12px 22px; border-radius:12px; text-decoration:none; font-weight:700; }
+footer { text-align:center; color:var(--muted); font-size:12px; padding:0 16px 32px; }
+</style>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bonyaniapp.github.io/join.html">
+<meta property="og:title" content="سجّل شركتك في بنياني · Register your company on Bonyani">
+<meta property="og:description" content="طلبات من أصحاب البيوت في تخصصك ومناطقك، وصفحة مجانية لشركتك. التسجيل مجاني · Homeowners' requests in your specialty and areas, and a free page for your company.">
+<style>
+.open { text-align:center; }
+.open h1 { font-size:22px; }
+.open .kind { color:var(--muted); font-size:14px; margin:0 0 6px; }
+.open .en { color:var(--muted); font-size:14px; margin:4px 0 0; direction:ltr; text-align:center; }
+.open .lead { color:var(--muted); font-size:15px; margin:12px 0 0; }
+.open .hint { color:var(--muted); font-size:13px; margin:10px 0 0; }
+.open .note { color:var(--muted); font-size:14px; margin:10px 0 0; }
+.open .kind.en { margin:-4px 0 6px; font-size:13px; }
+.open .hint.en { font-size:13px; margin-top:2px; }
+.buttons { display:flex; flex-direction:column; gap:10px; margin:18px auto 4px; max-width:340px; }
+.buttons a { display:block; padding:12px 18px; border-radius:14px; font-weight:700; text-decoration:none; text-align:center; }
+.buttons a span { display:block; }
+.open .buttons a .en { color:inherit; font-size:13px; font-weight:600; opacity:.85; margin:2px 0 0; }
+.buttons a.primary { color:#fff; background:linear-gradient(135deg,var(--navy),var(--blue)); }
+.buttons a.secondary { color:var(--blue); background:rgba(31,89,184,.1); }
+@media (prefers-color-scheme: dark) { .buttons a.secondary { color:#8db4ff; background:rgba(141,180,255,.12); } }
+[hidden] { display:none !important; }
+
+.join h1 { font-size:26px; margin:2px 0 0; }
+.benefits { display:grid; gap:12px; margin:12px 0; }
+@media (min-width:640px) { .benefits { grid-template-columns:1fr 1fr; } }
+.benefits section { margin:0; display:flex; gap:14px; align-items:flex-start; }
+.benefits svg { flex:none; width:44px; height:44px; padding:10px; border-radius:12px; color:var(--blue); background:rgba(31,89,184,.1); }
+@media (prefers-color-scheme: dark) { .benefits svg { color:#8db4ff; background:rgba(141,180,255,.12); } }
+.benefits h2 { font-size:16px; margin:0 0 2px; }
+.benefits p { font-size:14px; }
+.benefits p.en { margin-top:6px; font-size:13px; }
+.invited p { margin:0; }
+.invited p + p { margin-top:4px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="word-ar">بنياني</div>
+  <div class="word-en">BONYANI</div>
+  <p>من أرضك إلى مفتاحك</p>
+</header>
+<nav>
+  <a href="privacy.html">سياسة الخصوصية</a><a href="terms.html">شروط الاستخدام</a><a href="support.html">الدعم</a>
+  <a href="privacy-en.html">Privacy</a><a href="terms-en.html">Terms</a>
+</nav>
+<main class="">
+
+<section class="open join">
+  <p class="kind" id="kind" hidden></p>
+  <p class="kind en" id="kind-en" hidden></p>
+  <h1>سجّل شركتك في بنياني</h1>
+  <p class="en">Register your company on Bonyani</p>
+  <p class="lead">بنياني تطبيق كويتي يجمع أصحاب البيوت بشركات البناء.</p>
+  <p class="en">Bonyani is a Kuwaiti app that connects homeowners with building companies.</p>
+  <div class="buttons">
+    <a class="primary" id="open" href="bonyani://register?type=company"><span id="open-ar">سجّل شركتك</span><span class="en" id="open-en">Register your company</span></a>
+    <a class="secondary" id="get" href="#" hidden><span id="get-ar">حمّل بنياني من App Store</span><span class="en" id="get-en">Get Bonyani</span></a>
+    <a class="secondary" id="play" href="#" hidden><span id="play-ar">حمّل بنياني من Google Play</span><span class="en" id="play-en">Get it on Google Play</span></a>
+  </div>
+  <p class="note" id="note" hidden></p>
+  <p class="en" id="note-en" hidden></p>
+  <p class="note" id="soon" hidden></p>
+  <p class="en" id="soon-en" hidden></p>
+  <p class="hint" id="hint" hidden></p>
+  <p class="hint en" id="hint-en" hidden></p>
+</section>
+<div class="benefits"><section><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg><div><h2>طلبات من أصحاب البيوت</h2><p>تصلك طلبات الأسعار من أصحاب البيوت في تخصصك ومناطقك، وترد بعرضك من التطبيق.</p><p class="en">Requests from homeowners: Quote requests from homeowners in your specialty and areas reach you, and you answer with your offer in the app.</p></div></section><section><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 9"/></svg><div><h2>صفحة مجانية لشركتك</h2><p>صور أعمالك وأسعارك وتقييمات عملائك في صفحة واحدة، تشاركها برابط.</p><p class="en">A free page for your company: Your work photos, prices and customer reviews on one page you can share with a link.</p></div></section><section><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="M10 13h6M10 17h6"/></svg><div><h2>مشاريع أكبر عبر المناقصات</h2><p>مناقصات لمشاريع أكبر يتحقق منها فريق بنياني: عمارات وشاليهات وتشطيبات وتوريد.</p><p class="en">Bigger projects through tenders: Tenders for bigger projects, checked by the Bonyani team: buildings, chalets, fit-outs and supply.</p></div></section><section><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg><div><h2>التسجيل مجاني</h2><p>سجّل شركتك مجانًا من التطبيق، ويراجعها فريق بنياني قبل ظهورها للعملاء.</p><p class="en">Registration is free: Register your company for free in the app; the Bonyani team checks it before customers see it.</p></div></section></div>
+<section class="open invited">
+  <p><b>شركتك موجودة في بنياني؟ افتح الرابط الذي أرسلناه لك</b></p>
+  <p class="en">Is your company already on Bonyani? Open the link we sent you.</p>
+  <p class="hint">ما عندك الرابط؟ ابحث عن شركتك في التطبيق واضغط «هل هذه شركتك؟» في صفحتها.</p>
+  <p class="en">No link? Find your company in the app and tap “Is this your company?” on its page.</p>
+</section>
+<script>
+(function () {
+
+  var STORE = null;
+  var SUPABASE = "https://gxffzkusocmwfcaqgmph.supabase.co", KEY = "sb_publishable_DQlBHwqKO8b9E89Uw4p0Pw_N3Ojc29-";
+  var params = new URLSearchParams(location.search);
+  var android = /Android/i.test(navigator.userAgent);
+  // An iPad asks for the desktop site and says it's a Mac with a touch screen.
+  var apple = !android && (/iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1));
+  var noApp = params.get("noapp") === "1";
+  var openLink = document.getElementById("open"), getLink = document.getElementById("get"), playLink = document.getElementById("play");
+  var storeURL = null, playURL = null, storesKnown = false, fallbackWaiting = false, timer = null;
+  // What the app opens: bonyani://<path>.
+  var path = null;
+  function line(id, text) {
+    var el = document.getElementById(id);
+    el.textContent = text || "";
+    el.hidden = !text;
+  }
+  // Arabic in <id>, English in <id>-en: a wrapped line never mixes the two directions.
+  function say(id, ar, en) {
+    line(id, ar);
+    line(id + "-en", en);
+  }
+  function button(ar, en) {
+    line("open-ar", ar);
+    line("open-en", en);
+  }
+  function comingSoon() {
+    if (storesKnown && !storeURL && !playURL) say("soon", "بنياني قريبًا على المتجر", "Bonyani is coming to the stores");
+  }
+  function intentURL() {
+    var back = playURL;
+    if (!back) {
+      var here = new URL(location.href);
+      here.searchParams.set("noapp", "1");
+      here.hash = "";
+      back = here.toString();
+    }
+    return "intent://" + path + "#Intent;scheme=bonyani;package=com.bonyani.app;S.browser_fallback_url=" + encodeURIComponent(back) + ";end";
+  }
+  function appLink() { return android ? intentURL() : "bonyani://" + path; }
+  function appStoreFallback() {
+    fallbackWaiting = false;
+    if (document.hidden) return;
+    if (!storesKnown) { fallbackWaiting = true; return; }
+    if (storeURL) {
+      location.href = storeURL;
+    } else {
+      say("note", "بنياني قريبًا على App Store", "Bonyani is coming to the App Store");
+    }
+  }
+  // An iPhone: the app opens and this page goes to the background; if it's still showing, the app isn't installed.
+  function tryApp() {
+    if (!apple || !path) return;
+    clearTimeout(timer);
+    timer = setTimeout(appStoreFallback, 1800);
+  }
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) { clearTimeout(timer); fallbackWaiting = false; }
+  });
+  function setStores(rows) {
+    (Array.isArray(rows) ? rows : []).forEach(function (row) {
+      if (row && row.key === "app_store_url" && typeof row.value === "string" && /^https:\/\/(apps|itunes)\.apple\.com\//.test(row.value)) {
+        storeURL = row.value;
+      }
+      if (row && row.key === "play_store_url" && typeof row.value === "string" && /^https:\/\/play\.google\.com\//.test(row.value)) {
+        playURL = row.value;
+      }
+    });
+    storesKnown = true;
+    if (storeURL && !android) { getLink.href = storeURL; getLink.hidden = false; }
+    if (playURL && !apple) { playLink.href = playURL; playLink.hidden = false; }
+    if (android && path) openLink.href = intentURL();
+    if (noApp || (!apple && !android)) comingSoon();
+    if (fallbackWaiting) appStoreFallback();
+  }
+  function loadStores() {
+    if (STORE) {
+      setStores([{ key: "app_store_url", value: STORE }]);
+    } else {
+      fetch(SUPABASE + "/rest/v1/app_settings?key=in.(app_store_url,play_store_url)&select=key,value", { headers: { apikey: KEY } })
+        .then(function (r) { return r.json(); })
+        .then(setStores)
+        .catch(function () { storesKnown = true; if (fallbackWaiting) appStoreFallback(); });
+    }
+  }
+
+  // ?k= picks the company's kind in the registration (the names RegisterLink.linkName uses; any letter case).
+  var KINDS = {
+    contractor: ["contractor", "للمقاولين", "For contractors"],
+    supplier: ["supplier", "للموردين", "For suppliers"],
+    engineeringoffice: ["engineeringOffice", "للمكاتب الهندسية", "For engineering offices"],
+    engineering_office: ["engineeringOffice", "للمكاتب الهندسية", "For engineering offices"],
+    maintenance: ["maintenance", "لشركات الصيانة", "For maintenance companies"]
+  };
+  var k = (params.get("k") || "").trim().toLowerCase();
+  var kind = Object.prototype.hasOwnProperty.call(KINDS, k) ? KINDS[k] : null;
+  path = "register?type=company" + (kind ? "&kind=" + kind[0] : "");
+  if (kind) say("kind", kind[1], kind[2]);
+  openLink.href = appLink();
+  openLink.addEventListener("click", tryApp);
+  loadStores();
+  if (android && noApp) {
+    say("note", "التطبيق غير مثبّت على هذا الجوال", "The app isn't installed on this phone");
+  } else if (!apple && !android) {
+    say("note", "افتح هذه الصفحة من جوالك لتسجّل شركتك في تطبيق بنياني", "Open this page on your phone to register your company in the Bonyani app");
+  }
+  if (apple || android) {
+    say("hint", "بعد تثبيت التطبيق اضغط «سجّل شركتك» هنا مرة ثانية، أو من التطبيق: «دخول» أعلى الرئيسية ← «إنشاء حساب» ← «شركة».",
+        "Once the app is installed, tap “Register your company” here again, or in the app: Sign In at the top of Home → Create Account → Company.");
+  }
+})();
+</script>
+
+</main>
+<footer>© 2026 Bonyani · بنياني — Kuwait</footer>
+</body>
+</html>
