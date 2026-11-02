@@ -34,20 +34,33 @@ footer { text-align:center; color:var(--muted); font-size:12px; padding:0 16px 3
 .open { text-align:center; }
 .open h1 { font-size:22px; }
 .open .kind { color:var(--muted); font-size:14px; margin:0 0 6px; }
-.open .en { color:var(--muted); font-size:14px; margin:4px 0 0; direction:ltr; }
+.open .en { color:var(--muted); font-size:14px; margin:4px 0 0; direction:ltr; text-align:center; }
+.open .lead { color:var(--muted); font-size:15px; margin:12px 0 0; }
+.open .hint { color:var(--muted); font-size:13px; margin:10px 0 0; }
+.open .note { color:var(--muted); font-size:14px; margin:10px 0 0; }
+.open .kind.en { margin:-4px 0 6px; font-size:13px; }
+.open .hint.en { font-size:13px; margin-top:2px; }
 .buttons { display:flex; flex-direction:column; gap:10px; margin:18px auto 4px; max-width:340px; }
-.buttons a { display:block; padding:14px 18px; border-radius:14px; font-weight:700; text-decoration:none; text-align:center; }
+.buttons a { display:block; padding:12px 18px; border-radius:14px; font-weight:700; text-decoration:none; text-align:center; }
+.buttons a span { display:block; }
+.open .buttons a .en { color:inherit; font-size:13px; font-weight:600; opacity:.85; margin:2px 0 0; }
 .buttons a.primary { color:#fff; background:linear-gradient(135deg,var(--navy),var(--blue)); }
 .buttons a.secondary { color:var(--blue); background:rgba(31,89,184,.1); }
 @media (prefers-color-scheme: dark) { .buttons a.secondary { color:#8db4ff; background:rgba(141,180,255,.12); } }
-.company { display:flex; flex-direction:column; align-items:center; gap:6px; margin:6px 0 4px; }
-.company img { width:84px; height:84px; object-fit:contain; background:#fff; border:1px solid var(--border); border-radius:22px; padding:6px; }
-.company .trades { color:var(--muted); font-size:14px; margin:0; }
+[hidden] { display:none !important; }
+
+.open .ask { font-size:24px; margin:0 0 10px; }
+.open .logo { display:block; margin:6px auto 0; width:84px; height:84px; object-fit:contain; background:#fff; border:1px solid var(--border); border-radius:22px; padding:6px; }
+.company { display:flex; flex-direction:column; align-items:center; gap:2px; margin:8px 0 4px; }
+.company .trades, .open .company .trades.en { color:var(--muted); font-size:14px; margin:0; }
 .pills { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:4px; }
 .pill { font-size:13px; font-weight:700; padding:4px 12px; border-radius:999px; }
 .pill.rating { color:#9a6a12; background:rgba(217,163,64,.16); }
 .pill.verified { color:#1d7a45; background:rgba(29,122,69,.12); }
-[hidden] { display:none !important; }
+.waiting { margin:14px auto 0; max-width:420px; padding:10px 14px; border-radius:14px; background:rgba(217,163,64,.16); }
+.waiting p { margin:0; color:#9a6a12; font-weight:700; }
+.open .waiting p.en { color:#9a6a12; font-weight:600; margin-top:2px; }
+@media (prefers-color-scheme: dark) { .waiting p, .open .waiting p.en { color:#f0c46b; } }
 </style>
 </head>
 <body>
@@ -63,25 +76,121 @@ footer { text-align:center; color:var(--muted); font-size:12px; padding:0 16px 3
 <main class="">
 
 <section class="open">
-  <p class="kind" id="kind"></p>
-  <div class="company" id="company" hidden>
-    <img id="logo" alt="" hidden>
-    <p class="trades" id="trades"></p>
-    <div class="pills"><span class="pill rating" id="rating" hidden></span><span class="pill verified" id="verified" hidden>رخصتها مؤكدة · Licence checked</span></div>
-  </div>
+  <p class="kind" id="kind" hidden></p>
+  <p class="kind en" id="kind-en" hidden></p>
+  <h2 class="ask" id="ask" hidden>هل هذه شركتك؟<span class="en" style="display:block">Is this your company?</span></h2>
+  <img class="logo" id="logo" alt="" hidden>
   <h1 id="title">جارٍ الفتح في تطبيق بنياني…</h1>
   <p class="en" id="title-en">Opening in the Bonyani app…</p>
-  <div class="buttons">
-    <a class="primary" id="open" href="#" hidden>افتح في التطبيق · Open in the app</a>
-    <a class="secondary" id="get" href="#" hidden>حمّل بنياني من App Store · Get Bonyani</a>
-    <a class="secondary" id="play" href="#" hidden>حمّل بنياني من Google Play · Get it on Google Play</a>
+  <div class="company" id="company" hidden>
+    <p class="trades" id="trades" hidden></p>
+    <p class="trades en" id="trades-en" hidden></p>
+    <div class="pills"><span class="pill rating" id="rating" hidden></span><span class="pill verified" id="verified" hidden>رخصتها مؤكدة · Licence checked</span></div>
   </div>
-  <p class="en" id="note" hidden></p>
+  <div class="waiting" id="waiting" hidden><p id="waiting-ar"></p><p class="en" id="waiting-en"></p></div>
+  <p class="lead" id="lead" hidden></p>
+  <p class="en" id="lead-en" hidden></p>
+  <div class="buttons">
+    <a class="primary" id="open" href="#" hidden><span id="open-ar">افتح في التطبيق</span><span class="en" id="open-en">Open in the app</span></a>
+    <a class="primary" id="join" href="join.html" hidden><span id="join-ar">سجّل شركتك</span><span class="en" id="join-en">Register your company</span></a>
+    <a class="secondary" id="get" href="#" hidden><span id="get-ar">حمّل بنياني من App Store</span><span class="en" id="get-en">Get Bonyani</span></a>
+    <a class="secondary" id="play" href="#" hidden><span id="play-ar">حمّل بنياني من Google Play</span><span class="en" id="play-en">Get it on Google Play</span></a>
+  </div>
+  <p class="note" id="note" hidden></p>
+  <p class="en" id="note-en" hidden></p>
+  <p class="note" id="soon" hidden></p>
+  <p class="en" id="soon-en" hidden></p>
+  <p class="hint" id="hint" hidden></p>
+  <p class="hint en" id="hint-en" hidden></p>
 </section>
 <script>
 (function () {
+
   var STORE = null;
   var SUPABASE = "https://gxffzkusocmwfcaqgmph.supabase.co", KEY = "sb_publishable_DQlBHwqKO8b9E89Uw4p0Pw_N3Ojc29-";
+  var params = new URLSearchParams(location.search);
+  var android = /Android/i.test(navigator.userAgent);
+  // An iPad asks for the desktop site and says it's a Mac with a touch screen.
+  var apple = !android && (/iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1));
+  var noApp = params.get("noapp") === "1";
+  var openLink = document.getElementById("open"), getLink = document.getElementById("get"), playLink = document.getElementById("play");
+  var storeURL = null, playURL = null, storesKnown = false, fallbackWaiting = false, timer = null;
+  // What the app opens: bonyani://<path>.
+  var path = null;
+  function line(id, text) {
+    var el = document.getElementById(id);
+    el.textContent = text || "";
+    el.hidden = !text;
+  }
+  // Arabic in <id>, English in <id>-en: a wrapped line never mixes the two directions.
+  function say(id, ar, en) {
+    line(id, ar);
+    line(id + "-en", en);
+  }
+  function button(ar, en) {
+    line("open-ar", ar);
+    line("open-en", en);
+  }
+  function comingSoon() {
+    if (storesKnown && !storeURL && !playURL) say("soon", "بنياني قريبًا على المتجر", "Bonyani is coming to the stores");
+  }
+  function intentURL() {
+    var back = playURL;
+    if (!back) {
+      var here = new URL(location.href);
+      here.searchParams.set("noapp", "1");
+      here.hash = "";
+      back = here.toString();
+    }
+    return "intent://" + path + "#Intent;scheme=bonyani;package=com.bonyani.app;S.browser_fallback_url=" + encodeURIComponent(back) + ";end";
+  }
+  function appLink() { return android ? intentURL() : "bonyani://" + path; }
+  function appStoreFallback() {
+    fallbackWaiting = false;
+    if (document.hidden) return;
+    if (!storesKnown) { fallbackWaiting = true; return; }
+    if (storeURL) {
+      location.href = storeURL;
+    } else {
+      say("note", "بنياني قريبًا على App Store", "Bonyani is coming to the App Store");
+    }
+  }
+  // An iPhone: the app opens and this page goes to the background; if it's still showing, the app isn't installed.
+  function tryApp() {
+    if (!apple || !path) return;
+    clearTimeout(timer);
+    timer = setTimeout(appStoreFallback, 1800);
+  }
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) { clearTimeout(timer); fallbackWaiting = false; }
+  });
+  function setStores(rows) {
+    (Array.isArray(rows) ? rows : []).forEach(function (row) {
+      if (row && row.key === "app_store_url" && typeof row.value === "string" && /^https:\/\/(apps|itunes)\.apple\.com\//.test(row.value)) {
+        storeURL = row.value;
+      }
+      if (row && row.key === "play_store_url" && typeof row.value === "string" && /^https:\/\/play\.google\.com\//.test(row.value)) {
+        playURL = row.value;
+      }
+    });
+    storesKnown = true;
+    if (storeURL && !android) { getLink.href = storeURL; getLink.hidden = false; }
+    if (playURL && !apple) { playLink.href = playURL; playLink.hidden = false; }
+    if (android && path) openLink.href = intentURL();
+    if (noApp || (!apple && !android)) comingSoon();
+    if (fallbackWaiting) appStoreFallback();
+  }
+  function loadStores() {
+    if (STORE) {
+      setStores([{ key: "app_store_url", value: STORE }]);
+    } else {
+      fetch(SUPABASE + "/rest/v1/app_settings?key=in.(app_store_url,play_store_url)&select=key,value", { headers: { apikey: KEY } })
+        .then(function (r) { return r.json(); })
+        .then(setStores)
+        .catch(function () { storesKnown = true; if (fallbackWaiting) appStoreFallback(); });
+    }
+  }
+
   var TRADES = {"shellConstruction":["بناء عظم","Shell construction"],"turnkey":["تسليم مفتاح","Turnkey"],"finishing":["تشطيبات","Finishing"],"electrical":["كهرباء","Electrical"],"plumbing":["صحي","Plumbing"],"airConditioning":["تكييف","Air conditioning"],"aluminum":["ألمنيوم وزجاج","Aluminum & glass"],"insulation":["عوازل","Insulation"],"gypsum":["جبس وديكور","Gypsum & decor"],"painting":["أصباغ","Painting"],"stoneFacades":["حجر وواجهات","Stone & facades"],"metalwork":["حدادة وبوابات","Metalwork & gates"],"shadesFences":["مظلات وسواتر","Shades & fences"],"demolition":["هدم وإزالة","Demolition & removal"],"poolsAndGardens":["مسابح","Swimming pools"],"landscaping":["حدائق وتنسيق مواقع","Gardens & landscaping"],"steel":["حديد","Steel"],"readyMix":["خرسانة جاهزة","Ready-mix concrete"],"blocks":["طابوق","Blocks"],"sandAggregate":["رمل وصلبوخ","Sand & aggregate"],"tiles":["سيراميك ورخام","Tiles & marble"],"sanitaryWare":["أدوات صحية","Sanitary ware"],"electricalSupplies":["مواد كهربائية","Electrical supplies"],"doors":["أبواب","Doors"],"elevators":["مصاعد","Elevators"],"equipmentRental":["تأجير معدات","Equipment rental"],"furniture":["أثاث ومفروشات","Furniture & furnishings"],"customFurniture":["أثاث تفصيل","Custom furniture"],"kitchens":["مطابخ","Kitchens"],"curtains":["ستائر وتنجيد","Curtains & upholstery"],"architecturalDesign":["تصميم ومخططات","Design & plans"],"supervision":["إشراف هندسي","Site supervision"],"soilTest":["فحص تربة","Soil testing"],"acMaintenance":["صيانة تكييف","AC maintenance"],"generalRepairs":["صيانة عامة","General repairs"],"plumbingRepair":["صحي وتسليك","Plumbing repair"],"electricalRepair":["صيانة كهرباء","Electrical repair"],"elevatorMaintenance":["صيانة مصاعد","Elevator maintenance"],"roofWaterproofing":["عزل أسطح","Roof waterproofing"],"tankCleaning":["تنظيف خزانات","Tank cleaning"],"pestControl":["مكافحة حشرات","Pest control"],"carpentry":["نجارة","Carpentry"],"furnitureMoving":["نقل عفش","Furniture moving"],"cctvSmartHome":["كاميرات وأنظمة ذكية","CCTV & smart home"],"solarEnergy":["طاقة شمسية","Solar energy"],"cleaning":["تنظيف بعد البناء","Post-build cleaning"],"contractReview":["مراجعة العقود","Contract review"],"contractDrafting":["كتابة العقود","Contract drafting"],"legalConsultation":["استشارات قانونية","Legal advice"]};
   var kinds = {
     c: ["vendor", "صفحة شركة على بنياني", "A company on Bonyani"],
@@ -90,63 +199,60 @@ footer { text-align:center; color:var(--muted); font-size:12px; padding:0 16px 3
     p: ["project", "مشروع من أعمال شركة على بنياني", "A company's project on Bonyani"]
   };
   var uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-  var params = new URLSearchParams(location.search);
-  var target = null, label = null, path = null, companyID = null;
-  ["c", "m", "d", "p"].forEach(function (key) {
-    var value = params.get(key);
-    if (!target && value && uuid.test(value)) {
-      path = kinds[key][0] + "/" + value.toLowerCase();
-      label = kinds[key];
-      if (key === "c") companyID = value.toLowerCase();
-    }
-  });
-  // A company's «اطلب عرض سعر» link (q=1) opens its own quote form in the app (a law office's: its consultation form).
-  var asksQuote = companyID && params.get("q") === "1";
-  if (path) {
-    if (asksQuote) path += "?q=1";
-    target = "bonyani://" + path;
-  }
-  var openLink = document.getElementById("open"), getLink = document.getElementById("get"), playLink = document.getElementById("play");
-  var note = document.getElementById("note");
-  var storeURL = null, playURL = null, storesKnown = false;
-  var apple = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-  var android = /Android/i.test(navigator.userAgent);
-  var noApp = params.get("noapp") === "1";
-  function comingSoon() {
-    if (storesKnown && !storeURL && !playURL) {
-      note.textContent = "بنياني قريبًا على المتجر · Bonyani is coming to the stores";
-      note.hidden = false;
-    }
-  }
-  function setStores(rows) {
-    (rows || []).forEach(function (row) {
-      if (row.key === "app_store_url" && typeof row.value === "string" && /^https:\/\/(apps|itunes)\.apple\.com\//.test(row.value)) {
-        storeURL = row.value;
-      }
-      if (row.key === "play_store_url" && typeof row.value === "string" && /^https:\/\/play\.google\.com\//.test(row.value)) {
-        playURL = row.value;
+  var label = null, companyID = null;
+  // An invited company's link comes first, then c, m, d, p (the app reads them in the same order).
+  var claimValue = params.get("claim");
+  var claiming = !!claimValue && uuid.test(claimValue);
+  if (claiming) {
+    companyID = claimValue.toLowerCase();
+    path = "vendor/" + companyID + "?claim=1";
+    label = kinds.c;
+  } else {
+    ["c", "m", "d", "p"].forEach(function (key) {
+      var value = params.get(key);
+      if (!path && value && uuid.test(value)) {
+        path = kinds[key][0] + "/" + value.toLowerCase();
+        label = kinds[key];
+        if (key === "c") companyID = value.toLowerCase();
       }
     });
-    storesKnown = true;
-    if (storeURL && !android) { getLink.href = storeURL; getLink.hidden = false; }
-    if (playURL && !apple) { playLink.href = playURL; playLink.hidden = false; }
-    if (android && target) openLink.href = intentURL();
-    if (noApp || (!apple && !android)) comingSoon();
   }
-  if (STORE) {
-    setStores([{ key: "app_store_url", value: STORE }]);
-  } else {
-    fetch(SUPABASE + "/rest/v1/app_settings?key=in.(app_store_url,play_store_url)&select=key,value", { headers: { apikey: KEY } })
-      .then(function (r) { return r.json(); })
-      .then(setStores)
-      .catch(function () { storesKnown = true; });
-  }
-  if (!target) {
-    document.getElementById("title").textContent = "الرابط غير مكتمل";
-    document.getElementById("title-en").textContent = "This link isn't complete.";
+  // A company's «اطلب عرض سعر» link (q=1) opens its own quote form in the app (a law office's: its consultation form).
+  var asksQuote = !claiming && !!companyID && params.get("q") === "1";
+  if (asksQuote) path += "?q=1";
+  loadStores();
+  if (!path) {
+    line("title", "الرابط غير مكتمل");
+    line("title-en", "This link isn't complete.");
     return;
   }
-  var kindLine = document.getElementById("kind");
+  function vendorQuery(columns) {
+    return fetch(SUPABASE + "/rest/v1/vendors?id=eq." + companyID + "&status=eq.approved&select=" + columns, { headers: { apikey: KEY } })
+      .then(function (r) { return r.json(); });
+  }
+  // The company's public card: logo (only from Bonyani's own storage), name, up to 3 trades, rating, licence.
+  function showCard(v) {
+    document.getElementById("company").hidden = false;
+    line("title", v.name_ar);
+    line("title-en", v.name_en || "");
+    var logo = document.getElementById("logo");
+    if (typeof v.logo_url === "string" && v.logo_url.indexOf(SUPABASE + "/storage/v1/object/public/vendor-media/") === 0) {
+      logo.src = v.logo_url;
+      logo.hidden = false;
+    }
+    var trades = (Array.isArray(v.categories) ? v.categories : []).map(function (t) { return TRADES[t]; }).filter(Boolean).slice(0, 3);
+    say("trades", trades.map(function (t) { return t[0]; }).join("، "), trades.map(function (t) { return t[1]; }).join(", "));
+    if (v.reviews_count > 0 && v.rating > 0) {
+      var rating = document.getElementById("rating");
+      rating.textContent = Number(v.rating).toFixed(1) + " ★ · " + v.reviews_count;
+      rating.hidden = false;
+    }
+    if (v.is_verified) document.getElementById("verified").hidden = false;
+  }
+  if (claiming) {
+    claimPage();
+    return;
+  }
   // A company's words wait for its card: a law office is asked for a consultation, not a quote.
   var companyWordsSet = false;
   function companyWords(lawOffice) {
@@ -155,77 +261,133 @@ footer { text-align:center; color:var(--muted); font-size:12px; padding:0 16px 3
       ? (lawOffice ? ["اطلب استشارة من مكتب على بنياني", "Request a consultation from a law office on Bonyani"]
                    : ["اطلب عرض سعر من شركة على بنياني", "Request a quote from a company on Bonyani"])
       : (lawOffice ? ["صفحة مكتب محاماة على بنياني", "A law office on Bonyani"] : [label[1], label[2]]);
-    kindLine.textContent = words[0] + " · " + words[1];
+    say("kind", words[0], words[1]);
     if (asksQuote) {
-      openLink.textContent = lawOffice ? "اطلب استشارة في التطبيق · Request a consultation in the app"
-                                       : "اطلب عرض سعر في التطبيق · Request a quote in the app";
+      if (lawOffice) button("اطلب استشارة في التطبيق", "Request a consultation in the app");
+      else button("اطلب عرض سعر في التطبيق", "Request a quote in the app");
     }
   }
-  if (!companyID) kindLine.textContent = label[1] + " · " + label[2];
+  if (!companyID) say("kind", label[1], label[2]);
   // A shared company: its public card (approved companies only), so the page says who it is.
   if (companyID) {
     setTimeout(function () { if (!companyWordsSet) companyWords(false); }, 1500);
-    fetch(SUPABASE + "/rest/v1/vendors?id=eq." + companyID + "&status=eq.approved&select=name_ar,name_en,logo_url,categories,rating,reviews_count,is_verified,kind",
-          { headers: { apikey: KEY } })
-      .then(function (r) { return r.json(); })
+    vendorQuery("name_ar,name_en,logo_url,categories,rating,reviews_count,is_verified,kind")
       .then(function (rows) {
-        var v = rows && rows[0];
+        var v = Array.isArray(rows) ? rows[0] : null;
         companyWords(!!v && v.kind === "law_office");
-        if (!v || !v.name_ar) return;
-        document.getElementById("company").hidden = false;
-        document.getElementById("title").textContent = v.name_ar;
-        document.getElementById("title-en").textContent = v.name_en || "";
-        var logo = document.getElementById("logo");
-        if (typeof v.logo_url === "string" && v.logo_url.indexOf(SUPABASE + "/storage/v1/object/public/vendor-media/") === 0) {
-          logo.src = v.logo_url;
-          logo.hidden = false;
-        }
-        var trades = (v.categories || []).map(function (t) { return TRADES[t]; }).filter(Boolean).slice(0, 3);
-        document.getElementById("trades").textContent =
-          trades.map(function (t) { return t[0]; }).join("، ") + (trades.length ? " · " : "") + trades.map(function (t) { return t[1]; }).join(", ");
-        if (v.reviews_count > 0 && v.rating > 0) {
-          var rating = document.getElementById("rating");
-          rating.textContent = Number(v.rating).toFixed(1) + " ★ · " + v.reviews_count;
-          rating.hidden = false;
-        }
-        if (v.is_verified) document.getElementById("verified").hidden = false;
+        if (v && v.name_ar) showCard(v);
       })
       .catch(function () { if (!companyWordsSet) companyWords(false); });
   }
-  openLink.href = target;
+  openLink.href = appLink();
   openLink.hidden = false;
-  // Android: an intent link opens the app, or Google Play (else this page, saying the app is coming) when it isn't there.
-  function intentURL() {
-    var back = playURL || (location.href + (location.search ? "&" : "?") + "noapp=1");
-    return "intent://" + path + "#Intent;scheme=bonyani;package=com.bonyani.app;S.browser_fallback_url=" + encodeURIComponent(back) + ";end";
-  }
   if (android) {
-    openLink.href = intentURL();
     if (noApp) {
-      note.textContent = "التطبيق غير مثبّت على هذا الجوال · The app isn't installed on this phone";
-      note.hidden = false;
+      say("note", "التطبيق غير مثبّت على هذا الجوال", "The app isn't installed on this phone");
       return;
     }
     location.href = intentURL();
     return;
   }
   if (!apple) {
-    note.textContent = "افتح هذا الرابط من جوالك وفيه تطبيق بنياني · Open this link on your phone with Bonyani installed";
-    note.hidden = false;
+    say("note", "افتح هذا الرابط من جوالك وفيه تطبيق بنياني", "Open this link on your phone with Bonyani installed");
     return;
   }
-  // The app opens and this page goes to the background; if it's still showing, the app isn't installed.
-  var timer = setTimeout(function () {
-    if (document.hidden) return;
-    if (storeURL) {
-      location.href = storeURL;
-    } else {
-      note.textContent = "بنياني قريبًا على App Store · Bonyani is coming to the App Store";
-      note.hidden = false;
+  tryApp();
+  location.href = "bonyani://" + path;
+
+  // ?claim=<id>: nothing opens by itself; the company reads the page, then taps «نعم، هذه شركتي».
+  function claimPage() {
+    var state = "loading", waiting = 0;
+    say("kind", "دعوة من فريق بنياني", "An invitation from the Bonyani team");
+    document.getElementById("ask").hidden = false;
+    say("title", "جارٍ التحميل…", "Loading…");
+    button("نعم، هذه شركتي", "Yes, this is my company");
+    openLink.href = appLink();
+    openLink.hidden = false;
+    openLink.addEventListener("click", tryApp);
+    if (!apple && !android) {
+      say("note", "افتح هذا الرابط من جوالك", "Open this link on your phone");
+    } else if (android && noApp) {
+      say("note", "التطبيق غير مثبّت على هذا الجوال", "The app isn't installed on this phone");
     }
-  }, 1800);
-  document.addEventListener("visibilitychange", function () { if (document.hidden) clearTimeout(timer); });
-  location.href = target;
+    function rpc(name) {
+      return fetch(SUPABASE + "/rest/v1/rpc/" + name, {
+        method: "POST",
+        headers: { apikey: KEY, "Content-Type": "application/json" },
+        body: JSON.stringify({ p_vendor: companyID })
+      });
+    }
+    // The team sees that the link was opened (not again when Android comes back here without the app).
+    if (!noApp) rpc("note_invite_opened").catch(function () {});
+    var pitch = ["أضفنا شركتك في بنياني ليجدها أصحاب البيوت في الكويت. سجّل مجانًا وأكّد أنها شركتك لتصلك طلبات العملاء مباشرة، وتدير صفحتها بصور أعمالك وأسعارك.",
+                 "We added your company to Bonyani so homeowners in Kuwait can find it. Register for free and confirm it's yours to get customers' requests directly and run its page with your work photos and prices."];
+    var installHint = apple || android
+      ? ["بعد تثبيت التطبيق ارجع لهذا الرابط واضغط «نعم، هذه شركتي».", "Once the app is installed, come back to this link and tap “Yes, this is my company”."]
+      : ["", ""];
+    function showWaiting() {
+      var shown = waiting > 0 && (state === "claim" || state === "unknown");
+      document.getElementById("waiting").hidden = !shown;
+      if (!shown) return;
+      line("waiting-ar", waiting === 1 ? "عندك طلب واحد من عميل بانتظارك"
+                       : waiting === 2 ? "عندك طلبان من عملاء بانتظارك"
+                       : waiting <= 10 ? "عندك " + waiting + " طلبات من عملاء بانتظارك"
+                       : "عندك " + waiting + " طلبًا من عملاء بانتظارك");
+      line("waiting-en", waiting === 1 ? "1 customer request is waiting for you" : waiting + " customer requests are waiting for you");
+    }
+    function show(next, v) {
+      state = next;
+      var claim = next === "claim" || next === "unknown";
+      document.getElementById("ask").hidden = next !== "claim";
+      if (next === "unknown") {
+        say("title", "دعوة شركتك إلى بنياني", "Your company's invitation to Bonyani");
+        button("افتح دعوتك في التطبيق", "Open your invitation in the app");
+      } else if (next === "missing") {
+        document.getElementById("company").hidden = true;
+        say("title", "لم نجد هذه الشركة في بنياني", "We couldn't find this company on Bonyani");
+        say("lead", "صفحتها غير متاحة الحين. تقدر تسجّل شركتك في بنياني مجانًا.",
+            "Its page isn't available right now. You can register your company on Bonyani for free.");
+      } else {
+        showCard(v);
+        if (next === "claim") button("نعم، هذه شركتي", "Yes, this is my company");
+        else button("افتح في التطبيق", "Open in the app");
+      }
+      if (next === "owned") {
+        // Someone runs the company on Bonyani now: just its page.
+        say("kind", label[1], label[2]);
+        say("lead", "هذه الشركة مسجّلة في بنياني ويديرها أصحابها.", "This company is already on Bonyani, run by its owners.");
+        path = "vendor/" + companyID;
+        openLink.href = appLink();
+      } else if (claim) {
+        say("lead", pitch[0], pitch[1]);
+      }
+      openLink.hidden = next === "missing";
+      document.getElementById("join").hidden = next !== "missing";
+      if (claim) say("hint", installHint[0], installHint[1]);
+      else say("hint", "", "");
+      showWaiting();
+    }
+    // Customer requests held for the company (an approved company nobody runs yet; 0 otherwise).
+    rpc("vendor_waiting_requests")
+      .then(function (r) { return r.json(); })
+      .then(function (n) {
+        if (typeof n === "number" && n > 0 && Math.floor(n) === n) { waiting = n; showWaiting(); }
+      })
+      .catch(function () {});
+    var giveUp = setTimeout(function () { if (state === "loading") show("unknown"); }, 6000);
+    vendorQuery("name_ar,name_en,logo_url,categories,rating,reviews_count,is_verified,kind,owner_id")
+      .then(function (rows) {
+        clearTimeout(giveUp);
+        if (!Array.isArray(rows)) { if (state === "loading") show("unknown"); return; }
+        var v = rows[0];
+        if (!v || !v.name_ar) show("missing");
+        else show(v.owner_id ? "owned" : "claim", v);
+      })
+      .catch(function () {
+        clearTimeout(giveUp);
+        if (state === "loading") show("unknown");
+      });
+  }
 })();
 </script>
 
